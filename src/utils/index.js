@@ -41,7 +41,7 @@ export const InputsArray = [];
 
 export const OutputsArray = [];
 
-export const BASE_URL = "/selina_test";
+export const BASE_URL = "";
 
 export const INPUTS_KEY = "inputs-register";
 
