@@ -18,10 +18,10 @@ function App() {
     <BrowserRouter>
       <Header />
           <Routes>
-           <Route path={`/selina_test`} element={ <Instructions />}/>
-           <Route path={`/selina_test/inventario`} element={ <Inventory />}/>
-           <Route path={`/selina_test/entradas`} element={ <Inputs />}/>
-           <Route path={`/selina_test/salidas`} element={ <Outputs />}/>
+           <Route path={`/`} element={ <Instructions />}/>
+           <Route path={`/inventario`} element={ <Inventory />}/>
+           <Route path={`/entradas`} element={ <Inputs />}/>
+           <Route path={`/salidas`} element={ <Outputs />}/>
           </Routes>
       <Footer />
     </BrowserRouter> 
