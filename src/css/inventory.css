@@ -2,35 +2,37 @@
     padding: 1rem;
     text-align: left;
     font-size: 1.5rem;
-}
-
-.p-datatable-thead>tr>th {
+  }
+  
+  .p-datatable-thead>tr>th {
     text-align: left;
-}
-
-.p-paginator {
+  }
+  
+  .p-paginator {
     padding: 0;
-}
-
-.p-dropdown-label:not(.p-placeholder) {
+  }
+  
+  .p-dropdown-label:not(.p-placeholder) {
     text-transform: uppercase;
-}
-
-.error-message {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    color: brown;
-}
-
-.home-text {
+  }
+  
+  .error-message {
+    margin-top: 2px;
+    font-size: 1rem;
+    color: rgb(219, 46, 46);
+    height: 1.3rem;
+    font-weight: 400;
+  }
+  
+  .home-text {
     background: white;
     padding: 10px;
     border-radius: 8px;
     margin-top: 3rem;
-}
-
-.b-image {
+  }
+  
+  .b-image {
     height: 100vh;
     background-repeat: round;
     background-image: url("https://selina-res.cloudinary.com/image/upload/if_iw_gt_1440,c_scale,w_1440/e_sharpen:80,q_auto:good/f_auto/v1/s-cf-1/xdw7oj4u3s4v/5c0lV0LSP02tB4gmtJaK0V/ebf7db57d77b21de9988d7333d73a668/Web_Banner-Selina_Cancun_Downtown_02-2018_Pool_Meero__1.jpeg");
-}
+  }
