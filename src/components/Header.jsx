@@ -1,18 +1,24 @@
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import { headerItems } from '../utils'
 import { LinkContainer } from 'react-router-bootstrap';
+import { Flex } from './Flex'
 import "../css/header.css";
 
+const styles = {
+  marginTop: '-12px'
+}
 export const Header = (() => {
   return (<Navbar className="header">
     <Container>
-      <Navbar.Brand href="#home">
-        <img
-          className="header-img"
-          src={headerItems?.img}
-          alt="Header" />
-      </Navbar.Brand>
-
+      <Flex display={"grid"}>
+        <Navbar.Brand href="#home">
+          <img
+            className="header-img"
+            src={headerItems?.img}
+            alt="Header" />
+        </Navbar.Brand>
+        <span style={styles}>DOWNTOWN</span>
+      </Flex>
       <Nav className="d-flex">
         {headerItems.navigation.map((tab, idx) => {
           return (

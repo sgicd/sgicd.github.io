@@ -14,6 +14,8 @@ export const Outputs = () => {
   const [newQuantity, setNewQuantity] = useState(null);
   const [visible, setVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const [errorQuantity, setErrorQuantity] = useState(false);
+  const [errorStock, setErrorStock] = useState(false);
   const [products, setProducts] = useState(() => {
     const json = localStorage.getItem(OUTPUTS_KEY);
     try {
@@ -67,6 +69,7 @@ export const Outputs = () => {
   };
   const updateInventory = (code, quantity, arr) => {
     setErrorMessage(false);
+    setErrorStock(false);
     const json = localStorage.getItem(INVENTORY_KEY);
     let currInventory = ProductsObj;
     if (!!json) {
@@ -78,12 +81,15 @@ export const Outputs = () => {
 
     if (idxToUpdate >= 0) {
       currInventory[idxToUpdate].stock -= Number(quantity);
-      arr = [...arr, { code: code, quantity: quantity }]
-      setProducts(arr);
-      localStorage.setItem(OUTPUTS_KEY, JSON.stringify(arr));
-      setVisible(false);
-
-      localStorage.setItem(INVENTORY_KEY, JSON.stringify(currInventory));
+      if (currInventory[idxToUpdate].stock >= 0) {
+        arr = [...arr, { code: code, quantity: quantity }]
+        setProducts(arr);
+        localStorage.setItem(OUTPUTS_KEY, JSON.stringify(arr));
+        setVisible(false);
+        localStorage.setItem(INVENTORY_KEY, JSON.stringify(currInventory));
+      } else {
+        setErrorStock(true);
+      }
     } else {
       setErrorMessage(true)
     }
@@ -104,10 +110,18 @@ export const Outputs = () => {
 
   const onUpdateInputCode = (e) => {
     setErrorMessage(false);
+    setErrorStock(false);
     setNewInputCode(e.target.value);
   };
 
   const onUpdateQuantity = (e) => {
+    setErrorQuantity(false);
+    setErrorStock(false);
+    const validation = Number(e.target.value);
+    if (Number.isNaN(validation)) {
+      setErrorQuantity(true);
+      return
+    }
     setNewQuantity(e.target.value);
   }
 
@@ -134,14 +148,22 @@ export const Outputs = () => {
               className="p-inputtext-lg"
               placeholder="Codigo de producto"
               value={newInputCode}
-              onChange={onUpdateInputCode} />
+              onChange={onUpdateInputCode}
+            />
+            <div className="error-message">
+              {errorMessage && 'Ingresa un código de producto válido.'}
+            </div>
             <InputText
               type="text"
               className="p-inputtext-lg mt-3"
               placeholder="Cantidad"
               value={newQuantity}
-              onChange={onUpdateQuantity} />
-            {errorMessage && (<div class="error-message"> Ingresa un código de producto válido. </div>)}
+              onChange={onUpdateQuantity}
+            />
+            <div className="error-message">
+              {errorQuantity && 'Validar que sea un número dentro del Stock.'}
+              {errorStock && 'No se puede registrar la salida, no hay suficientes productos en Stock'}
+            </div>
           </Flex>
 
         </Dialog>

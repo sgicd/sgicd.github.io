@@ -2,14 +2,14 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { headerItems } from '../utils'
 
 const styles = {
-  height: "50px"
+  height: "20px"
 }
 
 export const Footer = (() => {
   return (<Navbar style={styles} bg="dark" fixed="bottom">
     <Container>
       <Nav className="d-flex footer"></Nav>
-      <Navbar.Brand href="#home" className='mb-0 pb-0'>
+      {/* <Navbar.Brand href="#home" className='mb-0 pb-0'>
         <img
           src={headerItems?.imgFooter}
           width="40"
@@ -17,7 +17,7 @@ export const Footer = (() => {
           className="d-inline-block align-top"
           alt="footer"
         />
-      </Navbar.Brand>
+      </Navbar.Brand> */}
     </Container>
   </Navbar>)
 });

@@ -1,7 +1,7 @@
-export const Flex = ({flexDirection, alignItems, justifyContent, children}) => {
+export const Flex = ({ display, flexDirection, alignItems, justifyContent, children }) => {
   const styles = {
-    display: "flex",
-    ...(!!flexDirection && {flexDirection}),
+    display: display ?? "flex",
+    ...(!!flexDirection && { flexDirection }),
     alignItems,
     justifyContent
   };

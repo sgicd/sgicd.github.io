@@ -1,4 +1,4 @@
-import { INVENTORY_KEY, ProductsObj, DateFormatterMX, addDays, noWhites, noWhitesObj, DEMAND_PRONOS_KEY} from "../utils";
+import { INVENTORY_KEY, ProductsObj, DateFormatterMX, addDays, noWhites, noWhitesObj, DEMAND_PRONOS_KEY } from "../utils";
 import React, { useState } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
@@ -18,7 +18,7 @@ export const Inventory = ({ ...rest }) => {
     }
     return ProductsObj;
   });
-  const [demandPronos, setDemandPronos ] = useState(() => {
+  const [demandPronos, setDemandPronos] = useState(() => {
     const json = localStorage.getItem(DEMAND_PRONOS_KEY);
 
     if (!!json) {
@@ -42,7 +42,7 @@ export const Inventory = ({ ...rest }) => {
     setGlobalFilterValue(value);
   };
 
-  const calculateToOrder = (option) => { 
+  const calculateToOrder = (option) => {
     const _order = Math.trunc((!!demandPronos ? parseFloat(demandPronos) : 1.0) * noWhitesObj[option.code].multiplier - parseFloat(option.stock));
     // let toOrderIdx = products.findIndex((item) => item.code === option.code);
     // let _products = products;
@@ -51,10 +51,10 @@ export const Inventory = ({ ...rest }) => {
     //localStorage.setItem(INVENTORY_KEY,JSON.stringify(products));
     return _order > 0 ? _order : 0;
   }
-  
+
   const getToOrder = ((option) => {
-    if(!option) return -111
-    if(noWhites.has(option.code)) {
+    if (!option) return -111
+    if (noWhites.has(option.code)) {
       return calculateToOrder(option);
     }
     const toOrder = option?.securityStock - option?.stock;
@@ -62,12 +62,11 @@ export const Inventory = ({ ...rest }) => {
   });
 
   const getReorderPoint = ((option) => {
-    console.log("martin", option);
-    if(option.securityStock <=  0) return DateFormatterMX.format(new Date());
+    if (option.securityStock <= 0) return DateFormatterMX.format(new Date());
     let toOrder = parseFloat(option?.securityStock - option?.stock);
-    if(toOrder < 0) 
-      toOrder = 0.0 ;
-    const division =  parseFloat(toOrder / parseFloat(option?.securityStock));
+    if (toOrder < 0)
+      toOrder = 0.0;
+    const division = parseFloat(toOrder / parseFloat(option?.securityStock));
     const lowerBound = 0;
     const multiplier = noWhites.has(option.code) ? 23.0 : 180.0;
     const days = Math.trunc((1.0 - division) * multiplier);
@@ -75,7 +74,7 @@ export const Inventory = ({ ...rest }) => {
     const daysToAdd = lowerBound + days;
     const newDate = addDays(currDate, daysToAdd);
     return DateFormatterMX.format(newDate)
-  
+
   })
 
   const renderHeader = () => {
@@ -92,22 +91,22 @@ export const Inventory = ({ ...rest }) => {
   const onChangeDemandPronos = (e) => {
     const demanda = Number(e.target.value);
     setErrorMessage(false);
-    if(Number.isNaN(demanda)) {
+    if (Number.isNaN(demanda)) {
       setErrorMessage(true);
       return;
     }
     const json = localStorage.getItem(INVENTORY_KEY);
     let currProducts = products;
-		try {
-			if (!!json) {
-				const parsed = JSON.parse(json);
-				currProducts = parsed;
-			}
-		} catch (e) {
-			console.error(e);
-		}
-    currProducts.forEach((item,idx) => {
-      if(noWhites.has(item.code)) {
+    try {
+      if (!!json) {
+        const parsed = JSON.parse(json);
+        currProducts = parsed;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    currProducts.forEach((item, idx) => {
+      if (noWhites.has(item.code)) {
         const _toOrder = Math.trunc((!!demanda ? parseFloat(demanda) : 1.0) * noWhitesObj[item.code].multiplier - parseFloat(item.stock))
         currProducts[idx].toOrder = _toOrder;
       }
@@ -118,21 +117,26 @@ export const Inventory = ({ ...rest }) => {
 
   }
 
+  const styles = {
+    fontSize: '1rem',
+  }
+
   const header = renderHeader();
 
   return (<Wrapper>
     <div {...rest}>
       <Flex justifyContent={"flex-end"}>
-      <span className="p-float-label">
-        <InputText 
-          id={"demand-pronostic"} 
-          value={demandPronos}
-          onChange={onChangeDemandPronos}
+        <div className="p-float-label">
+          <InputText
+            id={"demand-pronostic"}
+            value={demandPronos}
+            onChange={onChangeDemandPronos}
           />
-        {errorMessage && (<div class="error-message"> Porfavor ingresa un numero </div>)}
-       
-        <label htmlFor="udemand-pronostic">Demanda pronosticada</label>
-      </span>
+          <label htmlFor="demand-pronostic">Demanda pronosticada</label>
+          <div className="error-message mt-0" style={styles}>
+            {errorMessage && 'Porfavor ingresa un numero '}
+          </div>
+        </div>
       </Flex>
       <DataTable
         className="p-datatable-inventory"
@@ -140,7 +144,7 @@ export const Inventory = ({ ...rest }) => {
         filters={filters}
         globalFilterFields={['name', 'code', 'stock', 'securityStock']}
         dataKey="code"
-        rowsPerPageOptions={[5, 10, 25, 50]}
+        rowsPerPageOptions={[4, 10, 25, 50]}
         paginator
         rows={5}
         header={header}
@@ -151,7 +155,7 @@ export const Inventory = ({ ...rest }) => {
         <Column header="Stock" field="stock" style={{ fontSize: '14px', textAlign: 'center' }} />
         <Column header="Stock de seguridad" field="securityStock" style={{ fontSize: '14px', textAlign: 'center' }} />
         <Column header="Cantidad a pedir" field="toOrder" body={getToOrder} style={{ fontSize: '14px', textAlign: 'center' }} />
-        <Column header="Punto de reorden" field="reorder" body={getReorderPoint}style={{ fontSize: '14px', textAlign: 'center' }} />
+        <Column header="Punto de reorden" field="reorder" body={getReorderPoint} style={{ fontSize: '14px', textAlign: 'center' }} />
         <Column rowEditor headerStyle={{ width: '10%', minWidth: '8rem' }} bodyStyle={{ textAlign: 'center' }} />
       </DataTable>
     </div>
